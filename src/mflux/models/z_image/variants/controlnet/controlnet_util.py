@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 
-import cv2
 import mlx.core as mx
 import numpy as np
 import PIL.Image
@@ -102,6 +101,7 @@ class ZImageControlnetUtil:
 
     @staticmethod
     def _preprocess(img: PIL.Image.Image, control_type: ControlType) -> PIL.Image.Image:
+        import cv2  # only here: OpenCV is optional
         # Union checkpoints accept any modality as an already-preprocessed hint, and every modality is
         # now computed locally: canny/mlsd via OpenCV, depth via DepthPro, hed and pose via native-MLX
         # ports of ControlNetHED and OpenPose.
@@ -128,6 +128,7 @@ class ZImageControlnetUtil:
 
     @staticmethod
     def _mlsd(img: PIL.Image.Image) -> PIL.Image.Image:
+        import cv2  # only here: OpenCV is optional
         # Straight line segments as white strokes on black, approximating the MLSD hint with OpenCV's
         # LSD (no neural model). Good for architecture and interiors where the strong cues are edges.
         if not hasattr(cv2, "createLineSegmentDetector"):
