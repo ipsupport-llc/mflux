@@ -147,6 +147,7 @@ class OpenPoseBody:
     def pose_map(self, image: PIL.Image.Image, detect_resolution: int = 512) -> PIL.Image.Image:
 
         import cv2  # only here: OpenCV is optional
+
         bgr = cv2.cvtColor(np.array(image.convert("RGB")), cv2.COLOR_RGB2BGR)
         out_h, out_w = bgr.shape[:2]
         paf, heat = self._infer(bgr, detect_resolution, (out_h, out_w))
@@ -156,6 +157,7 @@ class OpenPoseBody:
     def _infer(self, bgr: np.ndarray, detect_resolution: int, out_hw: tuple[int, int]):
 
         import cv2  # only here: OpenCV is optional
+
         out_h, out_w = out_hw
         scale = detect_resolution / max(out_h, out_w)
         img = cv2.resize(bgr, (0, 0), fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
@@ -177,6 +179,7 @@ class OpenPoseBody:
     @staticmethod
     def _assemble(paf: np.ndarray, heat: np.ndarray, thre1: float = 0.1, thre2: float = 0.05):
         import cv2  # only here: OpenCV is optional
+
         all_peaks, counter = [], 0
         for part in range(18):
             m = cv2.GaussianBlur(heat[:, :, part], (0, 0), sigmaX=3)
@@ -266,6 +269,7 @@ class OpenPoseBody:
     @staticmethod
     def _draw(shape: tuple[int, int], candidate: np.ndarray, subset: np.ndarray) -> PIL.Image.Image:
         import cv2  # only here: OpenCV is optional
+
         canvas = np.zeros((shape[0], shape[1], 3), dtype=np.uint8)
         for i in range(17):
             for person in subset:

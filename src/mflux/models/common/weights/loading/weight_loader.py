@@ -317,6 +317,7 @@ class WeightLoader:
     @staticmethod
     def _load_torch_checkpoint(file_path: Path) -> dict[str, mx.array]:
         import torch  # only for PyTorch-format weights
+
         pt_weights = torch.load(file_path, map_location="cpu", weights_only=False)
         return {k: mx.array(v.numpy()) for k, v in pt_weights.items() if isinstance(v, torch.Tensor)}
 

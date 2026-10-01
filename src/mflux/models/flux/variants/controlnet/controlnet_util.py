@@ -36,6 +36,7 @@ class ControlnetUtil:
     @staticmethod
     def _preprocess_canny(img: PIL.Image.Image) -> PIL.Image.Image:
         import cv2  # only here: OpenCV is optional
+
         image_to_canny = np.array(img)
         image_to_canny = cv2.Canny(image_to_canny, 100, 200)
         image_to_canny = np.array(image_to_canny[:, :, None])

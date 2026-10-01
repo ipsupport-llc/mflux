@@ -106,6 +106,7 @@ class ZImageControlnetUtil:
         # ports of ControlNetHED and OpenPose.
         if control_type == ControlType.canny:
             import cv2  # only here: OpenCV is optional
+
             # OpenCV Canny expects an 8-bit single-channel image.
             gray_u8 = np.array(img.convert("L"), dtype=np.uint8)
             edges_u8 = cv2.Canny(gray_u8, 100, 200)
@@ -129,6 +130,7 @@ class ZImageControlnetUtil:
     @staticmethod
     def _mlsd(img: PIL.Image.Image) -> PIL.Image.Image:
         import cv2  # only here: OpenCV is optional
+
         # Straight line segments as white strokes on black, approximating the MLSD hint with OpenCV's
         # LSD (no neural model). Good for architecture and interiors where the strong cues are edges.
         if not hasattr(cv2, "createLineSegmentDetector"):
